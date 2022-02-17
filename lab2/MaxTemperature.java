@@ -13,7 +13,7 @@ public class MaxTemperature {
             System.exit(-1);
         }
 
-        Job job = new Job.getInstance();
+        Job job = Job.getInstance();
         job.setJarByClass(MaxTemperature.class);
         job.setJobName("Max temperature");
         job.setNumReduceTasks(1);
