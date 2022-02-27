@@ -24,7 +24,7 @@ public class PageRankMapper
         float pr = Float.parseFloat(m.group(3));
         String[] targets_split = targets.split(" ");
 //      set output
-//      write pr
+//      write pairs <outlink_target>: <source_page, PR/number_of_outlinks>
         for (String target: targets_split) {
             outlink_target.set(target);
             outTuple.setSource_page(src_page);
@@ -32,7 +32,7 @@ public class PageRankMapper
 //            System.out.println(outlink_target + ":" + outTuple.toString());
             context.write(outlink_target, outTuple);
         }
-//      write
+//      write pairs <source_page>: <outlink_targets>
         outlink_target.set(src_page);
         outTuple.setOutlink_targets(targets);
         outTuple.setPage_rank(0);

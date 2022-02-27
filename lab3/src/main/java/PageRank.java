@@ -1,8 +1,12 @@
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.util.GenericOptionsParser;
+import org.apache.kerby.config.Conf;
 
 public class PageRank {
 
@@ -11,6 +15,9 @@ public class PageRank {
             System.err.println("Usage: PageRank <input path> <output path> [<number>]");
             System.exit(-1);
         }
+//        change separator from a tab to a space
+        Configuration conf = new Configuration();
+        conf.set("mapred.textoutputformat.separator", " ");
         String input_path = args[0].charAt(args[0].length()-1) == '/' ? args[0] : args[0]+'/';
         String output_path = input_path;
         int n = args.length == 3 ? Integer.parseInt(args[2]) : 1;
@@ -19,7 +26,7 @@ public class PageRank {
             input_path = output_path;
             output_path = n != 1 ? args[1] + i: args[1];
 
-            Job job = Job.getInstance();
+            Job job = Job.getInstance(conf);
             job.setJarByClass(PageRank.class);
             job.setJobName("PageRank");
             job.setNumReduceTasks(1);
